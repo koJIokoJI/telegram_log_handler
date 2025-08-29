@@ -1,6 +1,6 @@
 from logging import Handler
-
 from telebot import TeleBot
+from telebot.types import InputFile
 
 
 class TgHandler(Handler):
@@ -12,5 +12,10 @@ class TgHandler(Handler):
         self.chat_id = chat_id
 
     def emit(self, record):
+        photo = InputFile("nu3ga.jpg")
         bot = TeleBot(token=self.bot_token)
-        bot.send_message(chat_id=self.chat_id, text=f"мы в пизде)\n{record}")
+        bot.send_photo(
+            chat_id=self.chat_id,
+            photo=photo,
+            caption=f"{record.levelname}: {record.msg}\n{record.pathname}\nLINE: {record.lineno}",
+        )
